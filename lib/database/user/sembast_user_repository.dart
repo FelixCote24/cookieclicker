@@ -27,15 +27,12 @@ class SembastUserRepository extends UserRepository {
 
   @override
   Future<User> getUser(String id) async {
-    final snapshot = await _store.record(int.parse(id)).getSnapshot(_database);
-    if (snapshot == null) {
-      throw Exception("User not found");
-    }
-    return User.fromMap({
-      ...snapshot.value,
-      'id': snapshot.key, // Include the key in the map explicitly
-    });
+  final snapshot = await _store.record(int.parse(id)).getSnapshot(_database);
+  if (snapshot == null) {
+    throw UserNotFoundException(id);
   }
+  return User.fromMap({...snapshot.value, 'id': snapshot.key});
+}
 
   @override
   Future<List<User>> getUsers() async {
@@ -47,4 +44,12 @@ class SembastUserRepository extends UserRepository {
             }))
         .toList(growable: false);
   }
+}
+
+class UserNotFoundException implements Exception {
+  final String userId;
+  UserNotFoundException(this.userId);
+
+  @override
+  String toString() => 'User with ID $userId not found.';
 }
