@@ -15,8 +15,11 @@ class CookieClickerPage extends StatefulWidget {
 
 class _CookieClickerPageState extends State<CookieClickerPage> {
   late User _currentUser;
+  late Timer _saveTimer;
   late Timer _grandmaTimer;
   final UserRepository _userRepository = GetIt.I<UserRepository>();
+  late int _milliseconds;
+  late String _backgroundImage;
 
   @override
   void initState() {
@@ -24,12 +27,30 @@ class _CookieClickerPageState extends State<CookieClickerPage> {
     _currentUser = widget.user;
 
     // Start a timer for grandma cookie generation
-    _grandmaTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
+    _saveTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
       setState(() {
-        _currentUser.nombreCookies += _currentUser.nombreGrandMeres;
+        if (_currentUser.cookieMaster) {
+          _backgroundImage = 'assets/background2.png';
+        } else {
+          _backgroundImage = 'assets/background.png';
+        }
+        if (_currentUser.cookiesGeneresDepuisCreation >= 1000) {
+          _currentUser.cookieMaster = true;
+        }
         _saveUserData();
       });
     });
+
+    //start a loop that will add a cookie at a time and over 10 seconds, has to loop one time for each grandma
+    _milliseconds = 10000 ~/ _currentUser.nombreGrandMeres;
+    _grandmaTimer = Timer.periodic(Duration(milliseconds: _milliseconds), (timer) {
+      setState(() {
+        _currentUser.nombreCookies++;
+        _currentUser.cookiesGeneresDepuisCreation++;
+      });
+    });
+
+
   }
 
   @override
@@ -88,8 +109,8 @@ class _CookieClickerPageState extends State<CookieClickerPage> {
         ],
       ),
       body: Container(
-        decoration: const BoxDecoration(
-          image:DecorationImage(image: AssetImage('assets/background.png'), fit: BoxFit.cover,),),
+        decoration: BoxDecoration(
+          image: DecorationImage(image: AssetImage(_backgroundImage), fit: BoxFit.cover,),),
         child: Column(
         children: [
           Expanded(
