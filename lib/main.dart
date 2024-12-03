@@ -1,5 +1,5 @@
 import 'package:cookieclicker/auth/auth_service.dart';
-import 'package:cookieclicker/auth/login_page.dart';
+import 'package:cookieclicker/pages/login_page.dart';
 import 'package:cookieclicker/database/user/sembast_user_repository.dart';
 import 'package:cookieclicker/database/user/user_repository.dart';
 import 'package:cookieclicker/model/user.dart';

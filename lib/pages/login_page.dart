@@ -1,5 +1,5 @@
 import 'package:cookieclicker/auth/auth_service.dart';
-import 'package:cookieclicker/auth/register_page.dart';
+import 'package:cookieclicker/pages/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:cookieclicker/pages/cookie_clicker_page.dart';
 
@@ -71,7 +71,13 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         title: const Text('Login'),
       ),
-      body: Padding(
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/background.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,

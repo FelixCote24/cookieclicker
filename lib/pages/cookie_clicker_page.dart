@@ -54,8 +54,6 @@ class _CookieClickerPageState extends State<CookieClickerPage> {
     _currentUser.nombreCookies++;
     _currentUser.nombreClics++;
     _currentUser.cookiesGeneresDepuisCreation++;
-    _currentUser.validate();  // Validate before saving
-    _saveUserData();
   });
 }
 
@@ -66,7 +64,6 @@ class _CookieClickerPageState extends State<CookieClickerPage> {
       setState(() {
         _currentUser.nombreCookies -= grandmaCost;
         _currentUser.nombreGrandMeres++;
-        _saveUserData();
       });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -83,11 +80,17 @@ class _CookieClickerPageState extends State<CookieClickerPage> {
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: () => _logout(context), // Logout button
+            onPressed: () {
+              _saveUserData();
+              _logout(context);
+            }, // Logout button
           ),
         ],
       ),
-      body: Column(
+      body: Container(
+        decoration: const BoxDecoration(
+          image:DecorationImage(image: AssetImage('assets/background.png'), fit: BoxFit.cover,),),
+        child: Column(
         children: [
           Expanded(
             child: Center(
@@ -95,8 +98,8 @@ class _CookieClickerPageState extends State<CookieClickerPage> {
                 onTap: _clickCookie,
                 child: Image.asset(
                   'assets/cookie.png',
-                  width: 150,
-                  height: 150,
+                  width: 300,
+                  height: 300,
                 ),
               ),
             ),
@@ -117,6 +120,6 @@ class _CookieClickerPageState extends State<CookieClickerPage> {
           ),
         ],
       ),
-    );
+    ));
   }
 }
