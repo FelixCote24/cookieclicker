@@ -16,6 +16,8 @@ dependencies:
   path: ^1.8.0
   dropdown_search: ^5.0.3
   crypto: ^3.0.0
+  flutter_animated_button: ^2.0.3
+  sensors_plus: 6.1.0
 
 dev_dependencies:
   flutter_test:
@@ -28,3 +30,5 @@ flutter:
     - assets/cookie.png
     - assets/background.png
     - assets/background2.png
+    - assets/grandma.png
+    - assets/usine.png
