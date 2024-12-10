@@ -12,36 +12,37 @@ class AuthService {
   /// Registers a new user with a hashed password.
   /// Returns `true` if registration is successful, `false` if the username is already taken.
   Future<bool> register(String username, String password) async {
-  print("Registering user: $username");
+    print("Registering user: $username");
 
-  final users = await _userRepository.getUsers();
-  print("Existing users: ${users.map((u) => u.nom).toList()}");
+    final users = await _userRepository.getUsers();
+    print("Existing users: ${users.map((u) => u.nom).toList()}");
 
-  // Check if username already exists
-  if (users.any((user) => user.nom == username)) {
-    print("Username already taken.");
-    return false; // Return false if username is already taken
+    // Check if username already exists
+    if (users.any((user) => user.nom == username)) {
+      print("Username already taken.");
+      return false; // Return false if username is already taken
+    }
+
+    // Hash the password and create a new user with a random id
+    final passwordHash = _hashPassword(password);
+
+    final newUser = User(
+      id: Random().nextInt(1000000), // Create a random ID
+      nom: username,
+      motDePasse: passwordHash,
+    );
+
+    await _userRepository
+        .createUser(newUser); // Save the new user to the repository
+    print("User registered successfully: ${newUser.nom}");
+    return true;
   }
-
-  // Hash the password and create a new user with a random id
-  final passwordHash = _hashPassword(password);
-  
-  final newUser = User(
-    id: Random().nextInt(1000000),  // Create a random ID
-    nom: username,
-    motDePasse: passwordHash,
-  );
-
-  await _userRepository.createUser(newUser);  // Save the new user to the repository
-  print("User registered successfully: ${newUser.nom}");
-  return true;
-}
 
   /// Attempts to log in a user.
   /// Returns the `User` object if login is successful, or `null` if credentials are invalid.
   Future<User?> login(String username, String password) async {
     print("Attempting login for user: $username");
-    
+
     final users = await _userRepository.getUsers();
     print("Retrieved users: ${users.map((u) => u.nom).toList()}");
 
