@@ -214,6 +214,32 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                       ),
                     ),
+              const SizedBox(height: 16),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          LoginPage(authService: widget.authService),
+                    ),
+                  );
+                },
+                child: const Text(
+                  'Already have an account? Log in here.',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    shadows: [
+                      Shadow(
+                        offset: Offset(1, 1),
+                        blurRadius: 3,
+                        color: Colors.black,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),
