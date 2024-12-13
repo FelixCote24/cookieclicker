@@ -421,6 +421,7 @@ class _CookieClickerPageState extends State<CookieClickerPage>
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.pushReplacementNamed(context, '/login');
+                    _saveUserData();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
